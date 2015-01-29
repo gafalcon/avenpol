@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.List;
+import java.util.Random;
 
 import databases.Avenpol_db;
 import databases.PointDataSource;
@@ -98,10 +100,25 @@ public class MainMapFragment extends Fragment implements DinamicMapFragment.OnMa
         int color = 0;
         for(Route route : routes){
             List<LatLng> points = pointDataSource.getAllPointsByRoute(route.getId());
-            googleMap.addMarker(new MarkerOptions().position(points.get(0)).title("Starting Point").draggable(false));
+            String title;
+            float marker_color;
+            if(route.getType() == 1){
+                title = "Starting Point";
+                marker_color = BitmapDescriptorFactory.HUE_CYAN;
+            }else{
+                title = "Destination";
+                marker_color = BitmapDescriptorFactory.HUE_AZURE;
+            }
+
+            googleMap.addMarker(new MarkerOptions()
+                    .position(points.get(0))
+                    .title(title)
+                    .draggable(false)
+                    .icon(BitmapDescriptorFactory.defaultMarker(marker_color)));
             PolylineOptions path = new PolylineOptions();
             path.addAll(points);
-            path.color(colors[color++]);
+            path.color(colors[color]);
+            color = (color + 1) % 5;
             googleMap.addPolyline(path);
         }
     }

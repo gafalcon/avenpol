@@ -8,19 +8,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 
 public class Login extends Activity implements View.OnClickListener {
 
-    EditText etUser,etPass;
-    Button btnIngresar;
+    @InjectView(R.id.etUser) EditText etUser;
+    @InjectView(R.id.etPass) EditText etPass;
+    @InjectView(R.id.btnIngresar) Button btnIngresar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        etUser=(EditText)findViewById(R.id.etUser);
-        etPass=(EditText)findViewById(R.id.etPass);
-        btnIngresar=(Button)findViewById(R.id.btnIngresar);
+        ButterKnife.inject(this);
+
 
         btnIngresar.setOnClickListener(this);
     }

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ public class CarRegister extends Fragment {
     @InjectView(R.id.EditTextColor) TextView tv_color;
     @InjectView(R.id.EditTextModelo) TextView tv_modelo;
     @InjectView(R.id.EditTextPlaca) TextView tv_placa;
-
+    @InjectView(R.id.ButtonCarRegister) Button button_register;
 
     public CarRegister() {
         // Empty constructor required for fragment subclasses
@@ -43,11 +44,17 @@ public class CarRegister extends Fragment {
         View rootView = inflater.inflate(R.layout.activity_car_register, container, false);
 
         getActivity().setTitle("Registra Carro");
+        ButterKnife.inject(this,rootView);
+        button_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                carRegister(v);
+            }
+        });
         return rootView;
     }
 
     public void carRegister(View view){
-        ButterKnife.inject(getActivity());
         String modelo = tv_modelo.getText().toString();
         String marca = tv_marca.getText().toString();
         String color = tv_color.getText().toString();

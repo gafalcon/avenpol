@@ -1,6 +1,7 @@
 package com.example.gabo.myapplication;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +52,7 @@ public class CreateRouteFragment extends Fragment implements DinamicMapFragment.
     @InjectView(R.id.editTextCost) TextView view_cost;
     @InjectView(R.id.editTextDate) TextView view_date;
     @InjectView(R.id.editTextHour) TextView view_hour;
+    @InjectView(R.id.Aceptarbutton) Button button_aceptar;
 
     private boolean firstMarkerSet = false;
 
@@ -66,6 +69,13 @@ public class CreateRouteFragment extends Fragment implements DinamicMapFragment.
         View view = inflater.inflate(R.layout.fragment_create_route, container, false);
         mMapFragment = DinamicMapFragment.newInstance();
         getChildFragmentManager().beginTransaction().replace(R.id.create_route_map, mMapFragment).commit();
+        ButterKnife.inject(this,view);
+        button_aceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveRoute(v);
+            }
+        });
         return view;
     }
 
@@ -189,10 +199,11 @@ public class CreateRouteFragment extends Fragment implements DinamicMapFragment.
 
     }
 
+
     public void saveRoute(View view){
         List<LatLng> latLngList = path.getPoints();
         if (latLngList.size() > 2) {
-            ButterKnife.inject(getActivity());
+            //ButterKnife.inject(getActivity());
             int availability = Integer.parseInt(view_availability.getText().toString());
             Double cost = Double.parseDouble(view_cost.getText().toString());
             String date = view_date.getText().toString();

@@ -17,7 +17,7 @@
     <string name="cancelar">Cancelar</string>
     <string name="aceptar">Aceptar</string>
     <string name="register">Registrar</string>
-    <string name="login">Login...</string>
+    <string name="login">Iniciar Sesión</string>
     <string name="logout">Logout</string>
     <string name="commentRegTitle">Escriba su comentario</string>
     <string name="commentSubject">Asunto</string>
@@ -44,6 +44,8 @@
     <string name="title_my_activity_drawer">My Drawer</string>
     <string name="drawer_open">Abrir menu de navegación</string>
     <string name="drawer_close">Cerrar menú de navegación</string>
+    <string name="password">Contraseña</string>
+    <string name="username">Nombre de usuario de la ESPOL</string>
 
     <string-array name="menu_items_array">
         <item>Ver Rutas Disponibles</item>
