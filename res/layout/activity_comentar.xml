@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <Button
+        android:id="@+id/btnAddComent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/etComentario"
+        android:text="Añadir Comentario" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Comentarios"
+        android:id="@+id/header"
+        android:layout_below="@+id/btnAddComent"
+        android:background="#5e5e5e"
+        android:textColor="#FFFFFF"
+        android:textSize="14dp"/>
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list"
+        android:layout_below="@+id/header"
+        android:textSize="10dp"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/etComentario"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentLeft="true"
+        android:ems="10"
+        android:hint="Aquí escriba su comentario"
+        android:textSize="16dp" >
+
+        <requestFocus />
+    </EditText>
+
+</RelativeLayout>

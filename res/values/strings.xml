@@ -1,8 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">My Application</string>
+    <string name="app_name">Avenpol</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="action_search">Search</string>
+    <string name="menu_item_createRoute">Crear Nueva Ruta</string>
+    <string name="menu_item_viewRouteMap">Ver Rutas disponibles</string>
+    <string name="title_activity_car_register">CarRegister</string>
+    <string name="carRegTitle">Ingrese los Datos del Vehículo</string>
+    <string name="marca">Marca</string>
+    <string name="model">Modelo</string>
+    <string name="plate">Placa</string>
+    <string name="color">Color</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="register">Registrar</string>
+    <string name="login">Login...</string>
+    <string name="logout">Logout</string>
+    <string name="commentRegTitle">Escriba su comentario</string>
+    <string name="commentSubject">Asunto</string>
+    <string name="commentBody">Escriba su comentario...</string>
+    <string name="title_activity_create_comment">Create Comment</string>
+    <string name="availability">Disponibilidad</string>
+    <string name="date">Fecha:</string>
+    <string name="hour">Hora:</string>
+    <string name="cost">Costo:</string>
+    <string name="title_activity_first">FirstActivity</string>
+    <string name="title_activity_acercade">Acercade</string>
+    <string name="title_activity_solicitando">Solicitando</string>
+    <string name="title_activity_perfil">Perfil</string>
+    <string name="title_activity_mapa_ruta">MapaRuta</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_comentar">Comentar</string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="title_my_activity_drawer">My Drawer</string>
+    <string name="drawer_open">Abrir menu de navegación</string>
+    <string name="drawer_close">Cerrar menú de navegación</string>
+
+    <string-array name="menu_items_array">
+        <item>Ver Rutas Disponibles</item>
+        <item>Crear Ruta</item>
+        <item>Registrar Carro</item>
+        <item>Crear Comentario</item>
+        <item>Ver Perfil de Ruta</item>
+        <item>Logout</item>
+    </string-array>
+
+
 
 </resources>

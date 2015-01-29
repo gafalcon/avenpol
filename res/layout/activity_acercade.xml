@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="\t\tAvenpol\n
+    Desarrolladores:\n\tAndrés Romero\n\tGabriel Falcones\n\tKenny Altamirano\n\tKaren Ponce"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/textView"></TextView>
