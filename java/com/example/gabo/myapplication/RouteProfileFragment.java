@@ -1,16 +1,14 @@
 package com.example.gabo.myapplication;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 
-public class Perfil extends Fragment {
+public class RouteProfileFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,7 +21,7 @@ public class Perfil extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.activity_perfil, container, false);
+        return inflater.inflate(R.layout.route_profile_fragment, container, false);
     }
 
     @Override

@@ -58,6 +58,15 @@
             android:label="@string/title_activity_acercade" >
         </activity>
         <activity
+            android:name=".Solicitando"
+            android:label="@string/title_activity_solicitando"
+            android:parentActivityName=".MyDrawerActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MyDrawerActivity" />
+            >
+        </activity>
+        <activity
             android:name=".Login"
             android:label="@string/title_activity_login" >
         </activity>
