@@ -1,5 +1,6 @@
 package com.example.gabo.myapplication;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,9 +10,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
-public class MapaRuta extends Fragment {
+import java.util.List;
 
+import databases.Avenpol_db;
+import databases.PointDataSource;
+import databases.Route;
+import databases.RouteDataSource;
+
+
+public class MapaRuta extends Fragment implements DinamicMapFragment.OnMapReadyListener{
+
+    private DinamicMapFragment mMapFragment;
+    private GoogleMap googleMap;
+    private long route_id;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,8 +43,11 @@ public class MapaRuta extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Bundle args = getArguments();
-        long id = args.getLong(RouteInfoTabbedActivity.ROUTE_ID);
-        return inflater.inflate(R.layout.activity_mapa_ruta, container, false);
+        route_id = args.getLong(RouteInfoTabbedActivity.ROUTE_ID);
+        View view =  inflater.inflate(R.layout.activity_mapa_ruta, container, false);
+        mMapFragment = DinamicMapFragment.newInstance();
+        getChildFragmentManager().beginTransaction().replace(R.id.single_route_map, mMapFragment).commit();
+        return view;
     }
 
     @Override
@@ -41,5 +63,35 @@ public class MapaRuta extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMapReady() {
+        googleMap = mMapFragment.getMap();
+        googleMap.setMyLocationEnabled(true);
+        googleMap.getUiSettings().setMapToolbarEnabled(true);
+        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-2.16, -79.9), 12));
+        Avenpol_db db = new Avenpol_db(getActivity());
+        db.openDb();
+        RouteDataSource routeDataSource = new RouteDataSource(db.getDatabase());
+        Route route = routeDataSource.getRouteById(route_id);
+        PointDataSource pointDataSource = new PointDataSource(db.getDatabase());
+        List<LatLng> points = pointDataSource.getAllPointsByRoute(route.getId());
+        String title;
+        float marker_color;
+        if(route.getType() == 1){
+            title = "Punto de Salida";
+            marker_color = BitmapDescriptorFactory.HUE_AZURE;
+        }else{
+            title = "Punto de Llegada";
+            marker_color = BitmapDescriptorFactory.HUE_GREEN;
+        }
+        googleMap.addMarker(new MarkerOptions()
+                .position(points.get(0))
+                .title(title)
+                .draggable(false)
+                .icon(BitmapDescriptorFactory.defaultMarker(marker_color)));
+        googleMap.addPolyline(new PolylineOptions().addAll(points).color(Color.YELLOW));
     }
 }
