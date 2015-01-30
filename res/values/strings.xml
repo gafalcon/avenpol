@@ -56,6 +56,6 @@
         <item>Logout</item>
     </string-array>
 
-
+    <string name="title_activity_route_info_tabbed">Ruta Info</string>
 
 </resources>

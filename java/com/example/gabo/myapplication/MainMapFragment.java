@@ -108,7 +108,7 @@ public class MainMapFragment extends Fragment implements DinamicMapFragment.OnMa
         googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                startActivity(new Intent(getActivity(),Solicitando.class)
+                startActivity(new Intent(getActivity(),RouteInfoTabbedActivity.class)
                         .putExtra(ROUTE_ID,markers_id.get(marker.getId())));
             }
         });

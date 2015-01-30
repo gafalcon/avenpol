@@ -122,22 +122,6 @@ public class MyDrawerActivity extends ActionBarActivity {
                 break;
             case R.id.action_search:
                 break;
-            case R.id.menu_item_newRoute:
-                break;
-            case R.id.menu_item_viewRoutesMap:
-
-                break;
-            case R.id.menu_item_newCar:
-                startActivity(new Intent(this, MyDrawerActivity.class));
-                break;
-            case R.id.menu_item_logout:
-                break;
-            case R.id.menu_item_newComment:
-                //startActivity(new Intent(this, CreateCommentActivity.class));
-                break;
-            case R.id.menu_item_perfilruta:
-                startActivity(new Intent(this, Solicitando.class));
-                break;
 
         }
         return super.onOptionsItemSelected(item);

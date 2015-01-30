@@ -23,7 +23,8 @@ public class MapaRuta extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        Bundle args = getArguments();
+        long id = args.getLong(RouteInfoTabbedActivity.ROUTE_ID);
         return inflater.inflate(R.layout.activity_mapa_ruta, container, false);
     }
 

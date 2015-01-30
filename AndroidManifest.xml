@@ -26,12 +26,15 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/CustomActionBarTheme" >
-<!--        <activity
+
+        <!--
+            <activity
             android:name=".CreateMapFragment"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait" > &lt;!&ndash; Avoid restarting activity when changing between portrait and layout &ndash;&gt;
-        </activity>-->
+        </activity>
+        -->
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -58,22 +61,22 @@
             android:label="@string/title_activity_acercade" >
         </activity>
         <activity
-            android:name=".Solicitando"
-            android:label="@string/title_activity_solicitando"
-            android:parentActivityName=".MyDrawerActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MyDrawerActivity" />
-            >
-        </activity>
-        <activity
             android:name=".Login"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
             android:name=".MyDrawerActivity"
-            android:label="@string/title_my_activity_drawer"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_my_activity_drawer" >
+        </activity>
+        <activity
+            android:name=".RouteInfoTabbedActivity"
+            android:label="@string/title_activity_route_info_tabbed"
+            android:parentActivityName=".MyDrawerActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MyDrawerActivity" />
+            >
         </activity>
     </application>
 

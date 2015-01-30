@@ -15,24 +15,8 @@
         app:showAsAction="always">
     </item>
 
-
-    <item android:id="@+id/menu_item_viewRoutesMap" android:title="@string/menu_item_viewRouteMap"
-        app:showAsAction="never" android:icon="@drawable/ic_action_map"/>
-    <item android:id="@+id/menu_item_newRoute" android:title="@string/menu_item_createRoute"
-        app:showAsAction="never" />
-    <item android:id="@+id/menu_item_newCar" android:title="Registrar Carro"
-        app:showAsAction="never" />
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         app:showAsAction="never" android:icon="@drawable/ic_action_settings"/>
-    <item android:id="@+id/menu_item_login" android:title="@string/login"
-        app:showAsAction="never" />
-    <item android:id="@+id/menu_item_logout" android:title="@string/logout"
-        app:showAsAction="never" />
-    <item android:id="@+id/menu_item_newComment" android:title="new Comment"
-        app:showAsAction="never" />
-    <item android:id="@+id/menu_item_perfilruta" android:title="Ruta Perfil"
-        app:showAsAction="never"/>
-    <item android:id="@+id/menu_item_drawer" android:title="Drawer"
-        app:showAsAction="never"/>
+
 
 </menu>
