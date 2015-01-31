@@ -106,9 +106,9 @@ public class CreateRouteFragment extends Fragment implements DinamicMapFragment.
             }
         });
 
-        googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+        googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
-            public void onMapLongClick(LatLng latLng) {
+            public void onMapClick(LatLng latLng) {
                 if(!firstMarkerSet) {
                     googleMap.addMarker(new MarkerOptions().position(latLng).title("Starting Point").draggable(false));
                     firstMarkerSet = true;

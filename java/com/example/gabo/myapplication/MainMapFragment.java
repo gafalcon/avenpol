@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,6 +26,7 @@ import java.util.Random;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnCheckedChanged;
 import databases.Avenpol_db;
 import databases.PointDataSource;
 import databases.Route;
@@ -51,9 +54,11 @@ public class MainMapFragment extends Fragment implements DinamicMapFragment.OnMa
     private Hashtable<String, String> markers_date;
     private Hashtable<String, Double> markers_price;
     private Hashtable<String, Long> markers_id;
+    private List<Route> routes;
 
     @InjectView(R.id.info_window_date) TextView iw_date;
     @InjectView(R.id.info_window_price) TextView iw_price;
+    Switch switch_tipo;
 
     /**
      * Use this factory method to create a new instance of
@@ -91,14 +96,57 @@ public class MainMapFragment extends Fragment implements DinamicMapFragment.OnMa
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main_map, container, false);
+        switch_tipo = ButterKnife.findById(view,R.id.switch_main_map);
+        switch_tipo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                refreshMap(isChecked);
+            }
+        });
         mMapFragment = DinamicMapFragment.newInstance();
         getChildFragmentManager().beginTransaction().replace(R.id.main_map_container, mMapFragment).commit();
         return view;
     }
 
+    private void refreshMap(boolean isChecked) {
+        googleMap.clear();
+        int[] colors = { Color.CYAN, Color.GREEN, Color.MAGENTA, Color.GRAY, Color.BLUE};
+        int color = 0;
+        for(Route route : routes){
+            if(isChecked && route.getType() == 1){
+                printRoute(route, colors[color],BitmapDescriptorFactory.HUE_AZURE);
+                color = (color + 1) % 5;
+            }else if(!isChecked && route.getType() == 2){
+                printRoute(route, colors[color],BitmapDescriptorFactory.HUE_GREEN);
+                color = (color + 1) % 5;
+            }
+
+        }
+
+    }
+
+    private void printRoute(Route route, int path_color, float marker_color ){
+        Avenpol_db db = new Avenpol_db(getActivity());
+        db.openDb();
+        PointDataSource pointDataSource = new PointDataSource(db.getDatabase());
+        List<LatLng> points = pointDataSource.getAllPointsByRoute(route.getId());
+        final Marker marker = googleMap.addMarker(new MarkerOptions()
+                .position(points.get(0))
+                .draggable(false)
+                .icon(BitmapDescriptorFactory.defaultMarker(marker_color)));
+        markers_date.put(marker.getId(),route.getDate());
+        markers_price.put(marker.getId(),route.getCost());
+        markers_id.put(marker.getId(), route.getId());
+        PolylineOptions path = new PolylineOptions();
+        path.addAll(points);
+        path.color(path_color);
+        googleMap.addPolyline(path);
+
+    }
 
     @Override
     public void onMapReady() {
+
         googleMap = mMapFragment.getMap();
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setMapToolbarEnabled(true);
@@ -116,39 +164,14 @@ public class MainMapFragment extends Fragment implements DinamicMapFragment.OnMa
         Avenpol_db db = new Avenpol_db(getActivity());
         db.openDb();
         RouteDataSource routeDataSource = new RouteDataSource(db.getDatabase());
-        List<Route> routes = routeDataSource.getAllRoutesByUser(1);
-        PointDataSource pointDataSource = new PointDataSource(db.getDatabase());
-        int[] colors = { Color.CYAN, Color.GREEN, Color.MAGENTA, Color.GRAY, Color.BLUE};
-        int color = 0;
+        routes = routeDataSource.getAllRoutesByUser(1);
+        // TODO Close Database
         markers_date = new Hashtable<>();
         markers_price = new Hashtable<>();
         markers_id = new Hashtable<>();
-        for(Route route : routes){
-            List<LatLng> points = pointDataSource.getAllPointsByRoute(route.getId());
-            String title;
-            float marker_color;
-            if(route.getType() == 1){
-                title = "Punto de Salida";
-                marker_color = BitmapDescriptorFactory.HUE_AZURE;
-            }else{
-                title = "Punto de Llegada";
-                marker_color = BitmapDescriptorFactory.HUE_GREEN;
-            }
 
-            final Marker marker = googleMap.addMarker(new MarkerOptions()
-                    .position(points.get(0))
-                    .title(title)
-                    .draggable(false)
-                    .icon(BitmapDescriptorFactory.defaultMarker(marker_color)));
-            markers_date.put(marker.getId(),route.getDate());
-            markers_price.put(marker.getId(),route.getCost());
-            markers_id.put(marker.getId(), route.getId());
-            PolylineOptions path = new PolylineOptions();
-            path.addAll(points);
-            path.color(colors[color]);
-            color = (color + 1) % 5;
-            googleMap.addPolyline(path);
-        }
+        refreshMap(switch_tipo.isChecked());
+
     }
 
     @Override
@@ -157,19 +180,12 @@ public class MainMapFragment extends Fragment implements DinamicMapFragment.OnMa
         View v = getActivity().getLayoutInflater().inflate(R.layout.info_window_layout, null);
         ButterKnife.inject(this,v);
 
-        //TextView tvLat = (TextView) v.findViewById(R.id.tv_lat);
-
-        // Getting reference to the TextView to set longitude
-        //TextView tvLng = (TextView) v.findViewById(R.id.tv_lng);
         String date;
         Double price;
-        // Setting the latitude
         if (marker.getId() != null && markers_date != null && markers_date.size() > 0) {
             date = markers_date.get(marker.getId());
             price = markers_price.get(marker.getId());
             iw_date.setText("Fecha:" + date);
-
-            // Setting the longitude
             iw_price.setText("Precio:"+ price);
         }
 
@@ -183,4 +199,5 @@ public class MainMapFragment extends Fragment implements DinamicMapFragment.OnMa
         return null;
 
     }
+
 }

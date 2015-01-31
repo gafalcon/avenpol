@@ -23,10 +23,10 @@
     <string name="commentSubject">Asunto</string>
     <string name="commentBody">Escriba su comentario...</string>
     <string name="title_activity_create_comment">Create Comment</string>
-    <string name="availability">Disponibilidad</string>
-    <string name="date">Fecha:</string>
-    <string name="hour">Hora:</string>
-    <string name="cost">Costo:</string>
+    <string name="availability"># Asientos</string>
+    <string name="date">Fecha</string>
+    <string name="hour">Hora</string>
+    <string name="cost">Costo</string>
     <string name="title_activity_first">FirstActivity</string>
     <string name="title_activity_acercade">Acercade</string>
     <string name="title_activity_solicitando">Solicitando</string>

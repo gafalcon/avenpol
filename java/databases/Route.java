@@ -10,7 +10,7 @@ public class Route {
     private int availability;
     private String date;
     private Double cost;
-    private int type;
+    private int type; // 1 == Entrada, 2 == Salida
     private long car_id;
     private long user_id;
 
@@ -50,6 +50,10 @@ public class Route {
         return type;
     }
 
+    /**
+     * Especifica si la ruta entra o sale de la ESPOL
+     * @param type 1 si entra, 2 si sale
+     */
     public void setType(int type) {
         this.type = type;
     }

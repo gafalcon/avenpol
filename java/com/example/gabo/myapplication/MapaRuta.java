@@ -2,10 +2,8 @@ package com.example.gabo.myapplication;
 
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -29,7 +26,6 @@ import databases.RouteDataSource;
 public class MapaRuta extends Fragment implements DinamicMapFragment.OnMapReadyListener{
 
     private DinamicMapFragment mMapFragment;
-    private GoogleMap googleMap;
     private long route_id;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,17 +63,17 @@ public class MapaRuta extends Fragment implements DinamicMapFragment.OnMapReadyL
 
     @Override
     public void onMapReady() {
-        googleMap = mMapFragment.getMap();
+        GoogleMap googleMap = mMapFragment.getMap();
         googleMap.setMyLocationEnabled(true);
         googleMap.getUiSettings().setMapToolbarEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-2.16, -79.9), 12));
         Avenpol_db db = new Avenpol_db(getActivity());
         db.openDb();
         RouteDataSource routeDataSource = new RouteDataSource(db.getDatabase());
         Route route = routeDataSource.getRouteById(route_id);
         PointDataSource pointDataSource = new PointDataSource(db.getDatabase());
         List<LatLng> points = pointDataSource.getAllPointsByRoute(route.getId());
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(points.get(0), 12));
         String title;
         float marker_color;
         if(route.getType() == 1){
