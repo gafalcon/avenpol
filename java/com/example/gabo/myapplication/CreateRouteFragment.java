@@ -18,6 +18,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +31,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import databases.Avenpol_db;
 import databases.PointDataSource;
 import databases.Route;
@@ -45,14 +51,17 @@ public class CreateRouteFragment extends Fragment implements DinamicMapFragment.
 
     private DinamicMapFragment mMapFragment;
     private GoogleMap googleMap;
-    PolylineOptions path;
+    //ArrayList<LatLng> path;
+    Stack<LatLng> path;
 
-    @InjectView(R.id.editTextAvailability)
-    TextView view_availability;
+    @InjectView(R.id.editTextAvailability) TextView view_availability;
     @InjectView(R.id.editTextCost) TextView view_cost;
     @InjectView(R.id.editTextDate) TextView view_date;
     @InjectView(R.id.editTextHour) TextView view_hour;
     @InjectView(R.id.Aceptarbutton) Button button_aceptar;
+    @InjectView(R.id.switch_create_route) Switch switch_tipo;
+    @InjectView(R.id.create_route_checkBox) CheckBox checkBox_today;
+    @InjectView(R.id.create_route_button_undo) ImageButton button_undo;
 
     private boolean firstMarkerSet = false;
 
@@ -87,7 +96,7 @@ public class CreateRouteFragment extends Fragment implements DinamicMapFragment.
         googleMap.getUiSettings().setMapToolbarEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-2.16, -79.9), 12));
-        path = new PolylineOptions();
+        path = new Stack<>();
         googleMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {
@@ -113,8 +122,8 @@ public class CreateRouteFragment extends Fragment implements DinamicMapFragment.
                     googleMap.addMarker(new MarkerOptions().position(latLng).title("Starting Point").draggable(false));
                     firstMarkerSet = true;
                 }
-                path.add(latLng).color(Color.BLUE);
-                googleMap.addPolyline(path);
+                path.add(latLng);
+                googleMap.addPolyline(new PolylineOptions().addAll(path).color(Color.BLUE));
 
             }
         });
@@ -201,20 +210,20 @@ public class CreateRouteFragment extends Fragment implements DinamicMapFragment.
 
 
     public void saveRoute(View view){
-        List<LatLng> latLngList = path.getPoints();
-        if (latLngList.size() > 2) {
-            //ButterKnife.inject(getActivity());
+        if (path.size() > 2) {
+
             int availability = Integer.parseInt(view_availability.getText().toString());
             Double cost = Double.parseDouble(view_cost.getText().toString());
             String date = view_date.getText().toString();
             String hour = view_hour.getText().toString();
+            int tipo = checkBox_today.isChecked() ? 1 : 2;
             Avenpol_db db = new Avenpol_db(getActivity());
             db.openDb();
             RouteDataSource routeDataSource = new RouteDataSource(db.getDatabase());
-            Route route = routeDataSource.createRoute(availability, date + " " + hour, cost,1,1,1);
+            Route route = routeDataSource.createRoute(availability, date + " " + hour, cost,tipo,1,1);
             int order = 1;
             PointDataSource pointDataSource = new PointDataSource(db.getDatabase());
-            for (LatLng latLng : path.getPoints()) {
+            for (LatLng latLng : path) {
                 pointDataSource.createPoint(latLng.latitude, latLng.longitude, order++, route.getId());
             }
             Toast.makeText(getActivity(), "Route was created", Toast.LENGTH_LONG).show();
@@ -222,4 +231,20 @@ public class CreateRouteFragment extends Fragment implements DinamicMapFragment.
             Toast.makeText(getActivity(), "Tiene que definir un camino", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @OnClick(R.id.create_route_button_undo)
+    public void undo() {
+        googleMap.clear();
+        if (!path.empty()) {
+            path.pop();
+            if(!path.empty()) {
+                googleMap.addMarker(new MarkerOptions().position(path.firstElement()).title("Starting Point").draggable(false));
+                googleMap.addPolyline(new PolylineOptions().addAll(path).color(Color.BLUE));
+            }else
+                firstMarkerSet = false;
+        }else
+            firstMarkerSet = false;
+    }
+
+
 }

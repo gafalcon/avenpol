@@ -57,5 +57,8 @@
     </string-array>
 
     <string name="title_activity_route_info_tabbed">Ruta Info</string>
+    <string name="route_type">Tipo:</string>
+    <string name="today">Hoy</string>
+    <string name="button_undo_description">Deshacer cambios en la ruta</string>
 
 </resources>
