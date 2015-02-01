@@ -3,6 +3,8 @@ package com.example.gabo.myapplication;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,9 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,7 +35,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 
@@ -56,11 +63,10 @@ public class CreateRouteFragment extends Fragment implements DinamicMapFragment.
 
     @InjectView(R.id.editTextAvailability) TextView view_availability;
     @InjectView(R.id.editTextCost) TextView view_cost;
-    @InjectView(R.id.editTextDate) TextView view_date;
-    @InjectView(R.id.editTextHour) TextView view_hour;
+    @InjectView(R.id.textView_fecha) TextView view_date;
+    @InjectView(R.id.textView_hour) TextView view_hour;
     @InjectView(R.id.Aceptarbutton) Button button_aceptar;
     @InjectView(R.id.switch_create_route) Switch switch_tipo;
-    @InjectView(R.id.create_route_checkBox) CheckBox checkBox_today;
     @InjectView(R.id.create_route_button_undo) ImageButton button_undo;
 
     private boolean firstMarkerSet = false;
@@ -79,6 +85,9 @@ public class CreateRouteFragment extends Fragment implements DinamicMapFragment.
         mMapFragment = DinamicMapFragment.newInstance();
         getChildFragmentManager().beginTransaction().replace(R.id.create_route_map, mMapFragment).commit();
         ButterKnife.inject(this,view);
+        Date today = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+        view_date.setText(sdf.format(today));
         button_aceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,12 +220,18 @@ public class CreateRouteFragment extends Fragment implements DinamicMapFragment.
 
     public void saveRoute(View view){
         if (path.size() > 2) {
+            int availability;
+            try {
+                availability = Integer.parseInt(view_availability.getText().toString());
+            }catch(NumberFormatException e){
+                Toast.makeText(getActivity(), "Debe definir # de Asientos", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            int availability = Integer.parseInt(view_availability.getText().toString());
             Double cost = Double.parseDouble(view_cost.getText().toString());
             String date = view_date.getText().toString();
             String hour = view_hour.getText().toString();
-            int tipo = checkBox_today.isChecked() ? 1 : 2;
+            int tipo = switch_tipo.isChecked() ? 1 : 2;
             Avenpol_db db = new Avenpol_db(getActivity());
             db.openDb();
             RouteDataSource routeDataSource = new RouteDataSource(db.getDatabase());
@@ -244,6 +259,35 @@ public class CreateRouteFragment extends Fragment implements DinamicMapFragment.
                 firstMarkerSet = false;
         }else
             firstMarkerSet = false;
+    }
+    @OnClick(R.id.button_change_date)
+    public void showDatePicker(View view){
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),onDateSet,2015,2,1);
+        datePickerDialog.setTitle("Seleccione una Fecha");
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+        datePickerDialog.show();
+    }
+
+    private DatePickerDialog.OnDateSetListener onDateSet = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            view_date.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
+        }
+    };
+
+    private TimePickerDialog.OnTimeSetListener onTimeSet = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            Time time = new Time(hourOfDay,minute,0);
+            view_hour.setText(new SimpleDateFormat("HH:mm").format(time));
+        }
+    };
+
+    @OnClick(R.id.button_change_hour)
+    public void showTimePicker(View view){
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),onTimeSet,12,00,false);
+        timePickerDialog.setTitle("Seleccione hora de partida");
+        timePickerDialog.show();
     }
 
 

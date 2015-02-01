@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
@@ -12,91 +11,152 @@
         android:scrollbars="vertical">
 
     </FrameLayout>
-
-    <GridLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:columnCount="4"
         android:background="#FFFFFF"
-        android:paddingLeft="20dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:orientation="vertical"
+        android:paddingLeft="40dp"
         android:paddingRight="20dp"
         android:paddingTop="10dp">
-
-        <EditText
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextAvailability"
-            android:inputType="number"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_columnSpan="2"
-            android:textSize="16sp"
-            android:hint="@string/availability"/>
-
-
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/route_type"
             android:id="@+id/switch_create_route"
+            android:layout_marginLeft="0dp"
             android:textOn="Ingreso"
             android:textOff="Salida"
-            android:enabled="true"
-            android:layout_row="0"
-            android:layout_column="2" />
-
-        <EditText
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextDate"
-            android:inputType="date"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:layout_columnSpan="2"
-            android:textSize="16sp"
-            android:hint="@string/date"/>
-
-        <CheckBox
+            android:checked="true"/>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/today"
-            android:id="@+id/create_route_checkBox"
-            android:layout_row="1"
-            android:layout_column="2" />
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/availability"
+                android:textSize="16sp"
+                android:id="@+id/textView"
+                android:textStyle="bold"
+                android:layout_marginRight="10dp"
+                />
+            <EditText
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextAvailability"
+                android:inputType="number"
+                android:textSize="16sp"
+                android:numeric="signed|integer" />
 
-        <EditText
-            android:layout_width="100dp"
+        </LinearLayout>
+        <GridLayout
             android:layout_height="wrap_content"
-            android:id="@+id/editTextHour"
-            android:inputType="time"
-            android:layout_row="2"
-            android:layout_column="0"
-            android:layout_columnSpan="2"
-            android:textSize="16sp"
-            android:hint="@string/hour"/>
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textSize="16sp"
+                android:id="@+id/textView1"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:textStyle="bold"
+                android:layout_marginRight="10dp"
+                />
 
-        <EditText
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextCost"
-            android:inputType="numberDecimal"
-            android:layout_row="3"
-            android:layout_column="0"
-            android:layout_columnSpan="2"
-            android:textSize="16sp"
-            android:hint="@string/cost"/>
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:textSize="16sp"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:id="@+id/textView_fecha"
+                />
+            <Button
+                android:text="@string/change"
+                android:layout_width="59dp"
+                android:textSize="12sp"
+                android:layout_height="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_row="0"
+                android:layout_column="2"
+                android:padding="0dp"
+                android:id="@+id/button_change_date"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hour"
+                android:id="@+id/textView2"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_marginRight="10dp"
+                />
 
-        <Button
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_hour"
+                android:layout_row="1"
+                android:textSize="16sp"
+                android:layout_column="1"
+                android:id="@+id/textView_hour"
+                />
+
+            <Button
+                android:text="@string/change"
+                android:layout_width="59dp"
+                android:textSize="12sp"
+                android:layout_height="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_row="1"
+                android:layout_column="2"
+                android:padding="0dp"
+                android:id="@+id/button_change_hour"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cost"
+                android:id="@+id/textView4"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:layout_marginRight="10dp"
+                />
+
+            <EditText
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextCost"
+                android:inputType="numberDecimal"
+                android:textSize="16sp"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:text="@string/cero"
+                android:numeric="signed" />
+
+        </GridLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/accept"
-            android:id="@+id/Aceptarbutton"
-            android:layout_row="4"
-            android:layout_column="1"
-            />
-
-    </GridLayout>
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/accept"
+                android:id="@+id/Aceptarbutton"
+                />
+        </LinearLayout>
+    </LinearLayout>
 
     <ImageButton
         android:layout_width="wrap_content"

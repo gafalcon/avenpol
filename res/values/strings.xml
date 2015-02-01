@@ -23,10 +23,10 @@
     <string name="commentSubject">Asunto</string>
     <string name="commentBody">Escriba su comentario...</string>
     <string name="title_activity_create_comment">Create Comment</string>
-    <string name="availability"># Asientos</string>
-    <string name="date">Fecha</string>
-    <string name="hour">Hora</string>
-    <string name="cost">Costo</string>
+    <string name="availability"># Asientos:</string>
+    <string name="date">Fecha:</string>
+    <string name="hour">Hora:</string>
+    <string name="cost">Costo:</string>
     <string name="title_activity_first">FirstActivity</string>
     <string name="title_activity_acercade">Acercade</string>
     <string name="title_activity_solicitando">Solicitando</string>
@@ -60,5 +60,8 @@
     <string name="route_type">Tipo:</string>
     <string name="today">Hoy</string>
     <string name="button_undo_description">Deshacer cambios en la ruta</string>
+    <string name="change">cambiar</string>
+    <string name="cero">0.00</string>
+    <string name="default_hour">12:00</string>
 
 </resources>
